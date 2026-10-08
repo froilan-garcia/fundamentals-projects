@@ -24,7 +24,7 @@ def main():
     if top_10:
         # prints the id of the protein with max occurrences (max hydrofob if tied)
         best_match = top_10[0]
-        print(f"Protein with max occurrences -> ID: {best_match[2]} | Occurrences: {best_match[0]} | Hydrofob: {best_match[1]}")
+        print(f"Protein with max occurrences\n ID: {best_match[2]} | Occurrences: {best_match[0]} | Hydrofob: {best_match[1]}")
         # print a barchart of occurrences for the 10 proteins with more matches
         prot_ids = [str(m[2]) for m in top_10]
         occurrences = [m[0] for m in top_10]
