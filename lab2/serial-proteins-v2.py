@@ -33,7 +33,7 @@ def main():
         plt.bar(prot_ids, occurrences, color='skyblue', edgecolor='black')
         plt.xlabel('Protein ID')
         plt.ylabel('Number of Occurrences')
-        plt.title(f'Top 10 Proteins with pattern "{pattern.decode()}"')
+        plt.title(f'Top 10 Proteins with pattern "{pattern}"')
         plt.grid(axis='y', linestyle='--', alpha=0.5)
         plt.tight_layout()
         plt.show()
