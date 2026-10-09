@@ -39,14 +39,14 @@ Dataset: **10,000,000 proteins**, generated with **seed = 67**. Pattern: `AB`. R
 
 * Para `serial-proteins-v1.py` & `mpi-proteins-v1.py`
 
-Execution time (serial): 0.1742 seconds
+| Version | Processes | Execution time | Protein with max occurrences (ID) |
+|---|---|---|---|
+| Serial | 1 | 0.1742 s | 33058 |
+| MPI | 4 | 0.4222 s | 33058 |
+| MPI | 16 | 0.6565 s | 33058 |
+
 Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
 
-Execution time (MPI - 4 processes): 0.4222 seconds
-Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
-
-Execution time (MPI - 16 processes): 0.6565 seconds
-Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
  
 **Speedup (4 processes):  0.413**
 **Speedup (16 processes): 0.265**
@@ -58,14 +58,12 @@ Esto explica los speedups<1
 
 * Para `serial-proteins.py` & `mpi-proteins.py`
 
-Execution time (serial): 0.1165 s
-Protein with max occurrences: 33058
+| Version | Processes | Execution time | Protein with max occurrences (ID) |
+|---|---|---|---|
+| Serial | 1 | 0.1165 s | 33058 |
+| MPI | 4 | 0.0280 s | 33058 |
+| MPI | 16 | 0.0310 s | 33058 |
 
-Execution time (4 processes): 0.0280 s
-Protein with max occurrences: 33058
-
-Execution time (16 processes): 0.0310 s
-Protein with max occurrences: 33058
 
 **Speedup (4 processes):  4.161**
 **Speedup (16 processes): 3.758**
@@ -77,30 +75,24 @@ Protein with max occurrences: 33058
 
 * Para `serial-proteins-v1.py` & `mpi-proteins-v1.py`
 
-Execution time (serial): 18.4197 seconds
+| Version | Processes | Execution time | Protein with max occurrences (ID) |
+|---|---|---|---|
+| Serial | 1 | 18.4197 s | 33058 |
+| MPI | 4 | 27.7630 s | 33058 |
+| MPI | 16 | 27.8387 s | 33058 |
+
 Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
-
-Execution time (MPI - 4 processes): 27.7630 seconds
-Protein with max occurrences:
- ID: 33058 | Occurrences: 5 | Hydrofob: 204
-
-Execution time (MPI - 16 processes): 27.8387 seconds
-Protein with max occurrences:
- ID: 33058 | Occurrences: 5 | Hydrofob: 204
  
 **Speedup (4 processes):  0.663**
 **Speedup (16 processes): 0.662**
 
 * Para `serial-proteins.py` & `mpi-proteins.py`
 
-Execution time (serial): 10.5279 s
-Protein with max occurrences: 33058
-
-Execution time (4 processes): 2.3054 s
-Protein with max occurrences: 33058
-
-Execution time (16 processes): 0.8707 s
-Protein with max occurrences: 33058
+| Version | Processes | Execution time | Protein with max occurrences (ID) |
+|---|---|---|---|
+| Serial | 1 | 10.5279 s | 33058 |
+| MPI | 4 | 2.3054 s | 33058 |
+| MPI | 16 | 0.8707 s | 33058 |
 
 **Speedup (4 processes):  4.567**
 **Speedup (16 processes): 12.091**
