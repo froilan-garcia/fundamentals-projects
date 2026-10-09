@@ -34,7 +34,6 @@ def main():
     
     if rank == 0:
         df_final = pd.concat(gathered_matches)
-        
         # sort first by ocurrences, then by hydrofob
         df_sorted = df_final.sort_values(by=['occurrences', 'hydrofob'], ascending=[False, False])
         
