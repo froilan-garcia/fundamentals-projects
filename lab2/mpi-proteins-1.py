@@ -14,22 +14,21 @@ def main():
         pattern = input("Enter the pattern to search for: ").upper()
         start = time.time()
         df = pd.read_csv('proteins.csv', usecols=['protid', 'hydrofob', 'sequence'])
-        
-        # divide the data into ‘size’ equal blocks using NumPy to distribute them
-        chunks = np.array_split(df, size)
+
+        # divide the data into equal blocks using NumPy to distribute them
+        chunk_size = len(df) // size + 1
+        chunks = [df.iloc[i * chunk_size : (i + 1) * chunk_size].to_dict('list') for i in range(size)]
     else:
         chunks = None
 
     # broadcast: sends the text pattern to all workers
     pattern = comm.bcast(pattern, root=0)
-    
-    # scatter: distributes the DataFrame blocks to each process
-    local_df = comm.scatter(chunks, root=0)
-    
+    # scatter: distributes the dictionaries to each process
+    local_data = comm.scatter(chunks, root=0)
+    local_df = pd.DataFrame(local_data)
     # each process (worker) counts the occurrences in parallel within its own block
     local_df['occurrences'] = local_df['sequence'].str.count(pattern)
     local_matches = local_df[local_df['occurrences'] > 0]
-    
     # gather: the main process collects the filtered sub-DataFrames from all of them
     gathered_matches = comm.gather(local_matches, root=0)
     
