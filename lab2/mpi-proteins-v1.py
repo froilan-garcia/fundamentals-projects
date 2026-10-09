@@ -44,7 +44,7 @@ def main():
         if not df_sorted.empty:
             # prints the id of the protein with max occurrences
             top_protein = df_sorted.iloc[0]
-            print(f"Protein with max occurrences\n ID: {int(top_protein['protid'])} | Occurrences: {int(top_protein['occurrences'])} | Hydrofob: {top_protein['hydrofob']}")
+            print(f"Protein with max occurrences:\n ID: {int(top_protein['protid'])} | Occurrences: {int(top_protein['occurrences'])} | Hydrofob: {top_protein['hydrofob']}")
             
             top_10 = df_sorted.head(10)
             plt.figure(figsize=(10, 6))

@@ -24,7 +24,7 @@ def main():
     if top_10:
         # prints the id of the protein with max occurrences (max hydrofob if tied)
         best_match = top_10[0]
-        print(f"Protein with max occurrences\n ID: {best_match[2]} | Occurrences: {best_match[0]} | Hydrofob: {best_match[1]}")
+        print(f"Protein with max occurrences:\n ID: {best_match[2]} | Occurrences: {best_match[0]} | Hydrofob: {best_match[1]}")
         # print a barchart of occurrences for the 10 proteins with more matches
         prot_ids = [str(m[2]) for m in top_10]
         occurrences = [m[0] for m in top_10]
@@ -33,7 +33,7 @@ def main():
         plt.bar(prot_ids, occurrences, color='skyblue', edgecolor='black')
         plt.xlabel('Protein ID')
         plt.ylabel('Number of Occurrences')
-        plt.title(f'Top 10 Proteins with pattern "{pattern}"')
+        plt.title(f'Top 10 Proteins with pattern "{pattern.decode()}"')
         plt.grid(axis='y', linestyle='--', alpha=0.5)
         plt.tight_layout()
         plt.show()
