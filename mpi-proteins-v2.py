@@ -7,11 +7,7 @@ def main():
     comm = MPI.COMM_WORLD # Get the global communicator
     rank = comm.Get_rank() # Get the process ID
     size = comm.Get_size() # Total number of processes
-    if rank == 0:
-        pattern = input("Enter the pattern to search for: ").upper().encode()
-    else:
-        pattern = None  
-    pattern = comm.bcast(pattern, root=0)
+    pattern = comm.bcast(input("Enter pattern to search: ").upper().encode() if rank == 0 else None, root=0)
 
     start = MPI.Wtime()
     fsize = os.path.getsize("proteins.csv") # we get the file size to split the work between ranks
@@ -34,8 +30,7 @@ def main():
             # look for occurrences
             last_comma_idx = line.rfind(b",")
             if last_comma_idx != -1:
-                seq = line[last_comma_idx + 1:]
-                n_occurrences = seq.count(pattern)
+                n_occurrences = line.count(pattern, last_comma_idx + 1)
                 if n_occurrences > 0:
                     parts = line.split(b",", 3)
                     protid = int(parts[0])
@@ -65,7 +60,7 @@ def main():
             plt.bar(prot_ids, occurrences, color='coral', edgecolor='black')
             plt.xlabel('Protein ID')
             plt.ylabel('Number of Occurrences')
-            plt.title(f'Top 10 Proteins with pattern "{pattern}" (MPI)')
+            plt.title(f'Top 10 Proteins with pattern "{pattern.decode()}" (MPI)')
             plt.grid(axis='y', linestyle='--', alpha=0.5)
             plt.tight_layout()
             plt.show()
