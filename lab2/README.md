@@ -96,3 +96,21 @@ Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
 
 **Speedup (4 processes):  4.567**
 **Speedup (16 processes): 12.091**
+
+**VERSIÓN DEFINITIVA**
+* Para `serial-proteins-v2.py` & `mpi-proteins-v2.py`
+
+| Version | Processes | Execution time | Protein with max occurrences (ID) |
+|---|---|---|---|
+| Serial | 1 | 8.0923 s | 33058 |
+| MPI | 4 |  3.5741 s | 33058 |
+| MPI | 16 | 1.1964 s | 33058 |
+
+Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
+
+**Speedup (4 processes): 2.26415**
+**Speedup (16 processes): 6.76387**
+
+- **Versión 1 (pandas):** ejemplo de "paralelización ingenua". Al pasar de 1 a 4 y 16 procesos, el tiempo empeora de 18.4s a casi 28s (speedup de 0.66). Esto ocurre porque el nodo maestro lee todo el archivo en la memoria RAM, lo transforma y satura el canal de comunicación enviando los datos por la red de MPI. El tiempo gastado en logística de red supera con creces al tiempo de computación real.
+* **Versión intermedia:** Al introducir el I/O paralelo y eliminar los envíos por red, el rendimiento explota. El speedup de 4.56x con 4 núcleos es un caso de **aceleración superlineal**: al dividir el archivo en 4, los fragmentos caben en la memoria caché hiperrápida de los procesadores físicos, procesándose más rápido que en un solo bloque. Con 16 procesos se roza la perfección (12x de aceleración), demostrando que la partición por bytes funciona.
+* **Versión definitiva (límite físico y Ley de Amdahl):** aunque parezca contradictorio que la versión "definitiva" tenga un speedup menor (6.7x en 16 núcleos), al refinar las operaciones del algoritmo secuencial (sutiempo base bajó a 8.09s), el trabajo de CPU pasó a ser minúsculo. Llegados a este punto, los costes fijos del sistema distribuido (el tiempo que tarda MPI en arrancar 16 *workers* y la contención del disco duro al gestionar 16 punteros de lectura a la vez) se vuelven el cuello de botella principal.
