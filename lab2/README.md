@@ -7,7 +7,7 @@ Search a pattern typed on the keyboard in every protein sequence of `proteins.cs
 
 ## Usage
 
-Generate the dataset with `proteins-generator.py` (in `../lab1`), then run from the folder that contains `proteins.csv`:
+Generate the dataset with `proteins-generator.py` (in `../lab2`), then run from the folder that contains `proteins.csv`:
 
 ```
 python proteins-generator.py <numrows> <seed>
@@ -114,3 +114,25 @@ Protein with max occurrences -> ID: 33058 | Occurrences: 5 | Hydrofob: 204
 - **Versión 1 (pandas):** ejemplo de "paralelización ingenua". Al pasar de 1 a 4 y 16 procesos, el tiempo empeora de 18.4s a casi 28s (speedup de 0.66). Esto ocurre porque el nodo maestro lee todo el archivo en la memoria RAM, lo transforma y satura el canal de comunicación enviando los datos por la red de MPI. El tiempo gastado en logística de red supera con creces al tiempo de computación real.
 * **Versión intermedia:** Al introducir el I/O paralelo y eliminar los envíos por red, el rendimiento explota. El speedup de 4.56x con 4 núcleos es un caso de **aceleración superlineal**: al dividir el archivo en 4, los fragmentos caben en la memoria caché hiperrápida de los procesadores físicos, procesándose más rápido que en un solo bloque. Con 16 procesos se roza la perfección (12x de aceleración), demostrando que la partición por bytes funciona.
 * **Versión definitiva (límite físico y Ley de Amdahl):** aunque parezca contradictorio que la versión "definitiva" tenga un speedup menor (6.7x en 16 núcleos), al refinar las operaciones del algoritmo secuencial (sutiempo base bajó a 8.09s), el trabajo de CPU pasó a ser minúsculo. Llegados a este punto, los costes fijos del sistema distribuido (el tiempo que tarda MPI en arrancar 16 *workers* y la contención del disco duro al gestionar 16 punteros de lectura a la vez) se vuelven el cuello de botella principal.
+
+## Results (Guille)
+### For Amdahl's law:
+Dataset **10000000** proteins seed **67** pattern **AB**.
+
+| Version | Processes | Execution time | Protein with max occurrences | Speedup |
+|---|---|---|---|---|
+| Serial | 1 |  11.6846 s | 3556501 | 1 |
+| MPI | 4 | 2.2790 s  | 3556501 | 5,1270 |
+| MPI | 8 | 1.4618 s | 3556501 | 7,9933|
+| MPI | 12 | 1.0379 s | 3556501 | 11,2579 |
+| MPI | 16 | 0.9332 s | 3556501 | 12,5210 |
+
+### For Gustafson's law:
+Proteins seed **67** pattern **AB**.
+| Number of proteins | Processes | Execution time | Protein with max occurrences | Scaled Speedup
+|---|---|---|---|---|
+| 1000000 | 1 | 1.1424 s | 316614 | 1 |
+| 4000000 | 4 | 0.9998 s | 3556501 | 4,5705 |
+| 8000000 | 8 | 1.0867 | 3556501 | 8,4100 |
+| 12000000 | 12 | 1.3179 s | 3556501 | 10,4020 |
+| 16000000 | 16 | 1.6094 s | 3556501 | 11,3573 |
