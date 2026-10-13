@@ -39,7 +39,7 @@ def main():
         import matplotlib.pyplot as plt #plots
         plt.rcParams["font.size"] = 14  # bigger text in the bar chart
         plt.figure(figsize=(10, 6))
-        plt.bar([str(m[2]) for m in top], [m[0] for m in top], color="coral", edgecolor="black")
+        plt.bar([str(m[2]) for m in top], [m[0] for m in top], color="steelblue", edgecolor="black")
         plt.xlabel("Protein ID"); plt.ylabel("Number of Occurrences")
         plt.title(f"Top 10 proteins for '{pattern.decode()}'")
         plt.xticks(rotation=30, ha="right"); plt.grid(axis="y", linestyle="--", alpha=0.5); plt.tight_layout()
