@@ -57,7 +57,7 @@ def main():
             occurrences = [m[0] for m in top_10]
 
             plt.figure(figsize=(10, 6))
-            plt.bar(prot_ids, occurrences, color='coral', edgecolor='black')
+            plt.bar(prot_ids, occurrences, color='steelblue', edgecolor='black')
             plt.xlabel('Protein ID')
             plt.ylabel('Number of Occurrences')
             plt.title(f'Top 10 Proteins with pattern "{pattern.decode()}" (MPI)')
